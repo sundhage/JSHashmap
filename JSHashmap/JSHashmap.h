@@ -28,9 +28,10 @@ extern JSHObject* JSHCreate(unsigned int bucketSize);
 
 /*
  Destroys the hashmap object. 
- TODO: add value removal callback
+ @param obj Hashmap object
+ @param valueDestroyer Pointer to function that handles value destroying
 */
-extern void JSHDestroy(JSHObject* obj);
+extern void JSHDestroy(JSHObject* obj, void (*valueDestroyer)(void*));
 
 /*
  Sets a new value.

@@ -8,6 +8,14 @@
 
 #include <stdio.h>
 #include "JSHashmap.h"
+#include <stdlib.h>
+
+
+void releaser(void* obj) {
+    printf("Should release: %p\n", obj);
+    //free(obj);
+}
+
 
 int main(int argc, const char * argv[])
 {
@@ -30,6 +38,8 @@ int main(int argc, const char * argv[])
     
     
     JSHDebugDiag(jsh);
+    
+    JSHDestroy(jsh, &releaser);
     
     return 0;
 }

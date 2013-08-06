@@ -31,11 +31,12 @@ JSHObject* JSHCreate(unsigned int bucketSize) {
     return obj;
 }
 
-void JSHDestroy(JSHObject* obj) {
+void JSHDestroy(JSHObject* obj, void (*valueDestroyer)(void*)) {
     int i;
 	for (i=0; i<obj->bucketSize; i++) {
 		if (obj->buckets[i].key) {
 			free(obj->buckets[i].key);
+            valueDestroyer(obj->buckets[i].obj);
 			//onRemoval(buckets[i].obj);
 		}
 		
@@ -43,6 +44,7 @@ void JSHDestroy(JSHObject* obj) {
 		while (item) {
 			if (item->key) {
 				free(item->key);
+                valueDestroyer(item->obj);
 				//onRemoval(item->obj);
 			}
 			JSHTableItem* temp = item;
