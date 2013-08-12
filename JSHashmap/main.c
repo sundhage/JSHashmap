@@ -19,27 +19,27 @@ void releaser(void* obj) {
 
 int main(int argc, const char * argv[])
 {
-    JSHObject* jsh = JSHCreate(1024);
-    JSHSetValueForKey(jsh, "key1", "val1");
-    JSHSetValueForKey(jsh, "key2", "val2");
-    JSHSetValueForKey(jsh, "key3", "val3");
-    JSHSetValueForKey(jsh, "key4", "val4");
-    JSHSetValueForKey(jsh, "key5", "val5");
+    jshash_t* jsh = jsh_create_num_buckets(kJSHASH_CSTRING, 16);
+    jsh_set_value_for_key(jsh, "key1", "val1");
+    jsh_set_value_for_key(jsh, "key2", "val2");
+    jsh_set_value_for_key(jsh, "key3", "val3");
+    jsh_set_value_for_key(jsh, "key4", "val4");
+    jsh_set_value_for_key(jsh, "key5", "val5");
     
-    const char* res = JSHGetValueForKey(jsh, "key3");
-    const char* res2 = JSHGetValueForKey(jsh, "key6");
+    const char* res = jsh_get_value_for_key(jsh, "key3");
+    const char* res2 = jsh_get_value_for_key(jsh, "key6");
     if (res2 == NULL) printf("FUNKAR!\n");
-    JSHRemoveValueForKey(jsh, "key3");
-    const char* res3 = JSHGetValueForKey(jsh, "key3");
+    jsh_remove_value_for_key(jsh, "key3");
+    const char* res3 = jsh_get_value_for_key(jsh, "key3");
     if (res3 == NULL) printf("FUNKAR IGEN\n");
     
     // insert code here...
     printf("%s\n", res);
     
     
-    JSHDebugDiag(jsh);
+    jsh_debug_diag(jsh);
     
-    JSHDestroy(jsh, &releaser);
+    jsh_destroy(jsh, &releaser);
     
     return 0;
 }
