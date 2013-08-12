@@ -110,7 +110,7 @@ void jsh_destroy(jshash_t* obj, void (*value_destroyer_func)(void*)) {
 		if (obj->buckets[i].key) {
             if (obj->type == kJSHASH_CSTRING)
                 free(obj->buckets[i].key);
-            value_destroyer_func(obj->buckets[i].obj);
+            if (value_destroyer_func) value_destroyer_func(obj->buckets[i].obj);
 		}
 		
 		jsh_table_item* item = (jsh_table_item*)obj->buckets[i].next;
@@ -118,7 +118,7 @@ void jsh_destroy(jshash_t* obj, void (*value_destroyer_func)(void*)) {
 			if (item->key) {
                 if (obj->type == kJSHASH_CSTRING)
                     free(item->key);
-                value_destroyer_func(item->obj);
+                if (value_destroyer_func) value_destroyer_func(item->obj);
 			}
 			jsh_table_item* temp = item;
 			item = (jsh_table_item*)item->next;
